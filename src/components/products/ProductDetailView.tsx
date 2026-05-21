@@ -8,11 +8,13 @@ import { useCart } from "@/providers/CartProvider";
 import { StarRating } from "@/components/ui/StarRating";
 import { getCategoryLabel, getProductDescription, productDetailPath } from "@/lib/products";
 import { formatPrice } from "@/lib/format-price";
+import { buildBuyNowCheckoutUrl } from "@/lib/checkout";
 import { ROUTES } from "@/lib/constants";
 import type { Product } from "@/types/product";
 import { ArrowLeft, Leaf, Package, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type ProductDetailViewProps = {
@@ -26,21 +28,36 @@ export function ProductDetailView({
   related,
   isAuthenticated,
 }: ProductDetailViewProps) {
+  const router = useRouter();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [loginRedirect, setLoginRedirect] = useState(productDetailPath(product.id));
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const { addItem } = useCart();
   const categoryLabel = getCategoryLabel(product.category);
   const description = getProductDescription(product);
 
-  function handleAddToCart() {
+  function requireAuth(redirectTo: string, action: () => void) {
     if (!isAuthenticated) {
+      setLoginRedirect(redirectTo);
       setLoginModalOpen(true);
       return;
     }
-    addItem(product, quantity);
-    setAdded(true);
-    window.setTimeout(() => setAdded(false), 2000);
+    action();
+  }
+
+  function handleAddToCart() {
+    requireAuth(productDetailPath(product.id), () => {
+      addItem(product, quantity);
+      setAdded(true);
+      window.setTimeout(() => setAdded(false), 2000);
+    });
+  }
+
+  function handleBuyNow() {
+    requireAuth(buildBuyNowCheckoutUrl(product.id, quantity), () => {
+      router.push(buildBuyNowCheckoutUrl(product.id, quantity));
+    });
   }
 
   return (
@@ -119,19 +136,29 @@ export function ProductDetailView({
               </li>
             </ul>
 
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-8 space-y-4">
               <QuantitySelector value={quantity} onChange={setQuantity} />
-              <Button
-                type="button"
-                onClick={handleAddToCart}
-                className="w-full rounded-xl py-4 text-base font-semibold shadow-md shadow-emerald-600/20 sm:w-auto sm:min-w-[240px]"
-              >
-                {added ? "Đã thêm vào giỏ" : "Thêm vào giỏ"}
-              </Button>
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button
+                  type="button"
+                  onClick={handleBuyNow}
+                  className="w-full rounded-xl py-4 text-base font-semibold shadow-md shadow-emerald-600/20 sm:flex-1"
+                >
+                  Mua ngay
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleAddToCart}
+                  className="w-full rounded-xl border-emerald-200 py-4 text-base font-semibold sm:flex-1"
+                >
+                  {added ? "Đã thêm vào giỏ" : "Thêm vào giỏ"}
+                </Button>
+              </div>
               {added && isAuthenticated && (
                 <Link
                   href={ROUTES.cart}
-                  className="text-center text-sm font-semibold text-emerald-700 hover:text-emerald-900 sm:text-left"
+                  className="inline-block text-sm font-semibold text-emerald-700 hover:text-emerald-900"
                 >
                   Xem giỏ hàng →
                 </Link>
@@ -166,9 +193,9 @@ export function ProductDetailView({
       <LoginRequiredModal
         open={loginModalOpen}
         onClose={() => setLoginModalOpen(false)}
-        redirectTo={productDetailPath(product.id)}
-        title="Đăng nhập để thêm vào giỏ"
-        description="Vui lòng đăng nhập để mua sản phẩm này."
+        redirectTo={loginRedirect}
+        title="Đăng nhập để tiếp tục"
+        description="Vui lòng đăng nhập để mua sản phẩm trên FarmGo."
       />
     </>
   );

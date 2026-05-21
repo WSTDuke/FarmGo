@@ -119,12 +119,14 @@ export function CartView() {
         <p className="mt-2 text-xs text-emerald-600/70">
           Phí giao hàng sẽ được tính ở bước thanh toán (màn hình mẫu).
         </p>
-        <Button
-          type="button"
-          className="mt-6 w-full rounded-xl py-4 text-base font-semibold"
-        >
-          Tiến hành thanh toán
-        </Button>
+        <Link href={ROUTES.checkout} className="mt-6 block">
+          <Button
+            type="button"
+            className="w-full rounded-xl py-4 text-base font-semibold"
+          >
+            Tiến hành thanh toán
+          </Button>
+        </Link>
         <Link
           href={ROUTES.products}
           className="mt-4 block text-center text-sm font-medium text-emerald-700 hover:text-emerald-900"
