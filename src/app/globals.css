@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "../styles/animations.css";
+
+@theme inline {
+  --color-farm-50: #ecfdf5;
+  --color-farm-100: #d1fae5;
+  --color-farm-500: #10b981;
+  --color-farm-600: #059669;
+  --color-farm-700: #047857;
+  --color-farm-800: #065f46;
+  --color-farm-950: #022c22;
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-farm-950);
+  background: #fafdfb;
+}
