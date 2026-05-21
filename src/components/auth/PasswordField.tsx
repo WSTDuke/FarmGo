@@ -6,6 +6,7 @@ import { useState } from "react";
 
 type PasswordFieldProps = {
   id: string;
+  name?: string;
   label: string;
   autoComplete?: string;
   placeholder?: string;
@@ -13,6 +14,7 @@ type PasswordFieldProps = {
 
 export function PasswordField({
   id,
+  name,
   label,
   autoComplete = "current-password",
   placeholder = "••••••••",
@@ -35,6 +37,7 @@ export function PasswordField({
         />
         <Input
           id={id}
+          name={name ?? id}
           type={showPassword ? "text" : "password"}
           placeholder={placeholder}
           className="rounded-xl border-emerald-200 py-3.5 pl-12 pr-12 text-base"

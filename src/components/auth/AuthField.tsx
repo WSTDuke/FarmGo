@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 
 type AuthFieldProps = {
   id: string;
+  name?: string;
   label: string;
   type?: React.HTMLInputTypeAttribute;
   placeholder?: string;
@@ -10,10 +11,12 @@ type AuthFieldProps = {
   autoComplete?: string;
   required?: boolean;
   inputClassName?: string;
+  defaultValue?: string;
 };
 
 export function AuthField({
   id,
+  name,
   label,
   type = "text",
   placeholder,
@@ -21,6 +24,7 @@ export function AuthField({
   autoComplete,
   required = true,
   inputClassName,
+  defaultValue,
 }: AuthFieldProps) {
   return (
     <div>
@@ -38,11 +42,13 @@ export function AuthField({
         />
         <Input
           id={id}
+          name={name ?? id}
           type={type}
           placeholder={placeholder}
           className={`rounded-xl border-emerald-200 py-3.5 pl-12 text-base ${inputClassName ?? ""}`}
           autoComplete={autoComplete}
           required={required}
+          defaultValue={defaultValue}
         />
       </div>
     </div>

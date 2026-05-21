@@ -3,12 +3,16 @@
 import { AuthField } from "@/components/auth/AuthField";
 import { AuthPanel } from "@/components/auth/AuthPanel";
 import { AuthStepIndicator } from "@/components/auth/AuthStepIndicator";
+import { RegisterEmailConfirm } from "@/components/auth/RegisterEmailConfirm";
 import { PasswordField } from "@/components/auth/PasswordField";
 import { Button } from "@/components/ui/Button";
+import { mapAuthError } from "@/lib/auth-errors";
 import { AUTH_COPY, REGISTER_STEPS } from "@/lib/auth-config";
+import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Mail, Phone, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 
 const copy = AUTH_COPY.register;
@@ -18,12 +22,23 @@ const FIELDS_MIN_H = "min-h-[17.5rem]";
 
 type StepDirection = "forward" | "back";
 
+type ProfileFields = {
+  fullName: string;
+  phone: string;
+  email: string;
+};
+
 export function RegisterForm() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
+  const [profile, setProfile] = useState<ProfileFields | null>(null);
   const [displayStep, setDisplayStep] = useState(1);
   const [direction, setDirection] = useState<StepDirection>("forward");
   const [phase, setPhase] = useState<"enter" | "exit">("enter");
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const changeStep = useCallback(
@@ -53,12 +68,91 @@ export function RegisterForm() {
   const handleContinue = () => {
     const form = formRef.current;
     if (!form || isTransitioning) return;
-    if (form.checkValidity()) {
-      goNext();
-    } else {
+    if (!form.checkValidity()) {
       form.reportValidity();
+      return;
     }
+
+    if (step === 1) {
+      const fd = new FormData(form);
+      const email = String(fd.get("email") ?? "").trim();
+      const fullName = String(fd.get("fullName") ?? "").trim();
+      const phone = String(fd.get("phone") ?? "").trim();
+
+      if (!email || !fullName || !phone) {
+        setError("Vui lòng điền đầy đủ họ tên, số điện thoại và email.");
+        return;
+      }
+
+      setProfile({ fullName, phone, email });
+    }
+
+    setError(null);
+    goNext();
   };
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+
+    const form = formRef.current;
+    if (!form) return;
+
+    const password = (
+      form.elements.namedItem("password") as HTMLInputElement
+    )?.value;
+    const confirmPassword = (
+      form.elements.namedItem("confirmPassword") as HTMLInputElement
+    )?.value;
+
+    if (password !== confirmPassword) {
+      setError("Mật khẩu xác nhận không khớp.");
+      return;
+    }
+
+    if (!profile) {
+      setError("Vui lòng hoàn thành bước thông tin cá nhân trước.");
+      changeStep(1, "back");
+      return;
+    }
+
+    const { email, fullName, phone } = profile;
+
+    if (!email || !password) {
+      setError("Vui lòng điền email và mật khẩu.");
+      return;
+    }
+
+    setLoading(true);
+
+    const supabase = createClient();
+    const { data, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          phone,
+        },
+        emailRedirectTo: `${window.location.origin}/login`,
+      },
+    });
+
+    setLoading(false);
+
+    if (authError) {
+      setError(mapAuthError(authError.message));
+      return;
+    }
+
+    if (data.session) {
+      router.push("/");
+      router.refresh();
+      return;
+    }
+
+    setPendingEmail(email);
+  }
 
   const stepAnimClass =
     phase === "exit"
@@ -68,6 +162,22 @@ export function RegisterForm() {
       : direction === "forward"
         ? "animate-step-enter-forward"
         : "animate-step-enter-back";
+
+  if (pendingEmail) {
+    return (
+      <AuthPanel
+        title={copy.panelTitle}
+        subtitle="Xác nhận email để hoàn tất đăng ký."
+        alternatePrompt={copy.alternatePrompt}
+        alternateHref={copy.alternateHref}
+        alternateLabel={copy.alternateLabel}
+        hideTitleBlock
+        hideAlternateFooter
+      >
+        <RegisterEmailConfirm email={pendingEmail} />
+      </AuthPanel>
+    );
+  }
 
   return (
     <AuthPanel
@@ -88,8 +198,17 @@ export function RegisterForm() {
       <form
         ref={formRef}
         className="mt-2 space-y-6"
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
       >
+        {error && (
+          <p
+            role="alert"
+            className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          >
+            {error}
+          </p>
+        )}
+
         <div className={cn("overflow-hidden", FIELDS_MIN_H)}>
           <div key={displayStep} className={cn("space-y-6", stepAnimClass)}>
             {displayStep === 1 && (
@@ -100,6 +219,7 @@ export function RegisterForm() {
                   placeholder="Nguyễn Văn A"
                   icon={User}
                   autoComplete="name"
+                  defaultValue={profile?.fullName}
                 />
                 <AuthField
                   id="phone"
@@ -108,6 +228,7 @@ export function RegisterForm() {
                   placeholder="0901234567"
                   icon={Phone}
                   autoComplete="tel"
+                  defaultValue={profile?.phone}
                 />
                 <AuthField
                   id="email"
@@ -116,6 +237,7 @@ export function RegisterForm() {
                   placeholder="email@example.com"
                   icon={Mail}
                   autoComplete="email"
+                  defaultValue={profile?.email}
                 />
               </>
             )}
@@ -160,7 +282,7 @@ export function RegisterForm() {
               <Button
                 type="button"
                 variant="secondary"
-                disabled={isTransitioning}
+                disabled={isTransitioning || loading}
                 onClick={goBack}
                 className="flex flex-1 items-center justify-center gap-2 rounded-xl py-4 text-base font-semibold transition-transform active:scale-[0.98]"
               >
@@ -170,7 +292,7 @@ export function RegisterForm() {
               {step < TOTAL_STEPS ? (
                 <Button
                   type="button"
-                  disabled={isTransitioning}
+                  disabled={isTransitioning || loading}
                   onClick={handleContinue}
                   className="flex flex-1 items-center justify-center gap-2 rounded-xl py-4 text-base font-semibold transition-transform active:scale-[0.98]"
                 >
@@ -180,17 +302,17 @@ export function RegisterForm() {
               ) : (
                 <Button
                   type="submit"
-                  disabled={isTransitioning}
+                  disabled={isTransitioning || loading}
                   className="flex-1 rounded-xl py-4 text-base font-semibold transition-transform active:scale-[0.98]"
                 >
-                  {copy.submitLabel}
+                  {loading ? "Đang tạo tài khoản..." : copy.submitLabel}
                 </Button>
               )}
             </div>
           ) : (
             <Button
               type="button"
-              disabled={isTransitioning}
+              disabled={isTransitioning || loading}
               onClick={handleContinue}
               className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-base font-semibold transition-transform active:scale-[0.98]"
             >
