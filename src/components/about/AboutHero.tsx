@@ -1,4 +1,4 @@
-import { APP_NAME } from "@/lib/constants";
+import { APP_NAME, ROUTES } from "@/lib/constants";
 import { Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,7 +36,7 @@ export function AboutHero() {
             Tham gia ngay
           </Link>
           <Link
-            href="/#san-pham"
+            href={ROUTES.products}
             className="rounded-full border-2 border-white/80 px-8 py-3.5 text-base font-semibold transition hover:bg-white/10"
           >
             Xem sản phẩm

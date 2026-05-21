@@ -6,18 +6,21 @@ import { PasswordField } from "@/components/auth/PasswordField";
 import { Button } from "@/components/ui/Button";
 import { mapAuthError } from "@/lib/auth-errors";
 import { AUTH_COPY } from "@/lib/auth-config";
+import { ROUTES } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/client";
 import { Mail } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const copy = AUTH_COPY.login;
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const resetSuccess = searchParams.get("reset") === "success";
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,7 +44,10 @@ export function LoginForm() {
       return;
     }
 
-    router.push("/");
+    const next = searchParams.get("next");
+    const destination =
+      next?.startsWith("/") && !next.startsWith("//") ? next : ROUTES.products;
+    router.push(destination);
     router.refresh();
   }
 
@@ -54,6 +60,11 @@ export function LoginForm() {
       alternateLabel={copy.alternateLabel}
     >
       <form className="space-y-6" onSubmit={handleSubmit}>
+        {resetSuccess && (
+          <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            Đặt lại mật khẩu thành công. Vui lòng đăng nhập bằng mật khẩu mới.
+          </p>
+        )}
         {error && (
           <p
             role="alert"
@@ -89,7 +100,7 @@ export function LoginForm() {
             Ghi nhớ đăng nhập
           </label>
           <Link
-            href="#"
+            href={ROUTES.forgotPassword}
             className="font-medium text-emerald-700 hover:text-emerald-900"
           >
             Quên mật khẩu?

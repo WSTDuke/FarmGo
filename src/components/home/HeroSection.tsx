@@ -10,6 +10,7 @@ import {
   Salad,
   type LucideIcon,
 } from "lucide-react";
+import { ROUTES } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -61,7 +62,7 @@ export function HeroSection() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
-              href="#san-pham"
+              href={ROUTES.products}
               className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-8 py-3 text-base font-medium text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700"
             >
               Mua ngay

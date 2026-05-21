@@ -19,6 +19,12 @@ export function mapAuthError(message: string): string {
   if (m.includes("anonymous_provider_disabled")) {
     return "Thiếu email hoặc mật khẩu. Vui lòng điền đầy đủ các bước đăng ký.";
   }
+  if (m.includes("auth session missing") || m.includes("session not found")) {
+    return "Liên kết đã hết hạn. Vui lòng yêu cầu gửi email khôi phục lại.";
+  }
+  if (m.includes("user not found")) {
+    return "Không tìm thấy tài khoản với email này.";
+  }
 
   return message || "Có lỗi xảy ra. Vui lòng thử lại.";
 }

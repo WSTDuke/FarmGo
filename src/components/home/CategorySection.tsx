@@ -1,6 +1,8 @@
 import { IconBox } from "@/components/ui/IconBox";
 import { CATEGORIES } from "@/data/products.mock";
 import { CATEGORY_ICONS } from "@/lib/category-icons";
+import { ROUTES } from "@/lib/constants";
+import Link from "next/link";
 
 export function CategorySection() {
   return (
@@ -17,8 +19,8 @@ export function CategorySection() {
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {CATEGORIES.map((cat) => (
             <li key={cat.id}>
-              <button
-                type="button"
+              <Link
+                href={`${ROUTES.products}?category=${cat.id}`}
                 className="group flex w-full flex-col items-center rounded-2xl border border-emerald-100 bg-gradient-to-b from-emerald-50/80 to-white p-6 text-center transition-all hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-100"
               >
                 <IconBox
@@ -32,7 +34,7 @@ export function CategorySection() {
                 <span className="mt-1 text-xs text-emerald-600/80">
                   {cat.description}
                 </span>
-              </button>
+              </Link>
             </li>
           ))}
         </ul>

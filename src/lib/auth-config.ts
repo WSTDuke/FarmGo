@@ -7,7 +7,7 @@ export const AUTH_HERO = {
   titleLine2: "đến bàn ăn của bạn",
 } as const;
 
-export type AuthVariant = "login" | "register";
+export type AuthVariant = "login" | "register" | "forgotPassword";
 
 export const AUTH_COPY: Record<
   AuthVariant,
@@ -46,6 +46,18 @@ export const AUTH_COPY: Record<
       "Tham gia để mua trái cây, rau củ sạch với giá minh bạch",
     submitLabel: "Tạo tài khoản",
     alternatePrompt: "Đã có tài khoản?",
+    alternateHref: "/login",
+    alternateLabel: "Đăng nhập",
+  },
+  forgotPassword: {
+    pageTitle: "Quên mật khẩu",
+    pageDescription: "Khôi phục mật khẩu tài khoản FarmGo qua email.",
+    panelTitle: "Quên mật khẩu",
+    panelSubtitle: "Nhập email đăng ký — chúng tôi gửi liên kết đặt lại mật khẩu.",
+    heroDescription:
+      "Liên kết trong email có hiệu lực giới hạn. Sau khi bấm link, bạn đặt mật khẩu mới ngay tại đây.",
+    submitLabel: "Gửi email khôi phục",
+    alternatePrompt: "Nhớ mật khẩu?",
     alternateHref: "/login",
     alternateLabel: "Đăng nhập",
   },
