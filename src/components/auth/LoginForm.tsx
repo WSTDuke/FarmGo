@@ -46,7 +46,7 @@ export function LoginForm() {
 
     const next = searchParams.get("next");
     const destination =
-      next?.startsWith("/") && !next.startsWith("//") ? next : ROUTES.products;
+      next?.startsWith("/") && !next.startsWith("//") ? next : ROUTES.home;
     router.push(destination);
     router.refresh();
   }

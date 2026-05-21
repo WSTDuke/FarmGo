@@ -2,7 +2,9 @@
 
 import { LoginRequiredModal } from "@/components/layout/LoginRequiredModal";
 import { ProductCard } from "@/components/products/ProductCard";
+import { QuantitySelector } from "@/components/products/QuantitySelector";
 import { Button } from "@/components/ui/Button";
+import { useCart } from "@/providers/CartProvider";
 import { StarRating } from "@/components/ui/StarRating";
 import { getCategoryLabel, getProductDescription, productDetailPath } from "@/lib/products";
 import { formatPrice } from "@/lib/format-price";
@@ -25,6 +27,9 @@ export function ProductDetailView({
   isAuthenticated,
 }: ProductDetailViewProps) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const { addItem } = useCart();
   const categoryLabel = getCategoryLabel(product.category);
   const description = getProductDescription(product);
 
@@ -33,7 +38,9 @@ export function ProductDetailView({
       setLoginModalOpen(true);
       return;
     }
-    // TODO: thêm vào giỏ
+    addItem(product, quantity);
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 2000);
   }
 
   return (
@@ -112,13 +119,24 @@ export function ProductDetailView({
               </li>
             </ul>
 
-            <Button
-              type="button"
-              onClick={handleAddToCart}
-              className="mt-8 w-full rounded-xl py-4 text-base font-semibold shadow-md shadow-emerald-600/20 sm:w-auto sm:min-w-[280px]"
-            >
-              Thêm vào giỏ
-            </Button>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+              <QuantitySelector value={quantity} onChange={setQuantity} />
+              <Button
+                type="button"
+                onClick={handleAddToCart}
+                className="w-full rounded-xl py-4 text-base font-semibold shadow-md shadow-emerald-600/20 sm:w-auto sm:min-w-[240px]"
+              >
+                {added ? "Đã thêm vào giỏ" : "Thêm vào giỏ"}
+              </Button>
+              {added && isAuthenticated && (
+                <Link
+                  href={ROUTES.cart}
+                  className="text-center text-sm font-semibold text-emerald-700 hover:text-emerald-900 sm:text-left"
+                >
+                  Xem giỏ hàng →
+                </Link>
+              )}
+            </div>
           </div>
         </div>
 
