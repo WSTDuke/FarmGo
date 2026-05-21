@@ -6,8 +6,9 @@ import { QuantitySelector } from "@/components/products/QuantitySelector";
 import { Button } from "@/components/ui/Button";
 import { useCart } from "@/providers/CartProvider";
 import { StarRating } from "@/components/ui/StarRating";
+import { ProductReviewsSection } from "@/components/products/ProductReviewsSection";
 import { getCategoryLabel, getProductDescription, productDetailPath } from "@/lib/products";
-import { formatPrice } from "@/lib/format-price";
+import { formatPrice, formatSoldCount } from "@/lib/format-price";
 import { buildBuyNowCheckoutUrl } from "@/lib/checkout";
 import { ROUTES } from "@/lib/constants";
 import type { Product } from "@/types/product";
@@ -110,8 +111,17 @@ export function ProductDetailView({
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-emerald-950 md:text-4xl">
               {product.name}
             </h1>
-            <div className="mt-4">
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
               <StarRating rating={product.rating} />
+              <span className="text-sm text-emerald-600/30" aria-hidden>
+                |
+              </span>
+              <p className="text-sm font-medium text-emerald-700">
+                Đã bán{" "}
+                <span className="font-semibold text-emerald-900">
+                  {formatSoldCount(product.soldCount)}
+                </span>
+              </p>
             </div>
             <p className="mt-6 text-3xl font-bold text-emerald-700">
               {formatPrice(product.price)}
@@ -166,6 +176,8 @@ export function ProductDetailView({
             </div>
           </div>
         </div>
+
+        <ProductReviewsSection product={product} />
 
         {related.length > 0 && (
           <section className="mt-16 border-t border-emerald-100 pt-12">
