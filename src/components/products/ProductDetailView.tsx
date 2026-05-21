@@ -178,11 +178,7 @@ export function ProductDetailView({
             <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {related.map((item) => (
                 <li key={item.id}>
-                  <ProductCard
-                    product={item}
-                    isAuthenticated={isAuthenticated}
-                    onRequireLogin={() => setLoginModalOpen(true)}
-                  />
+                  <ProductCard product={item} />
                 </li>
               ))}
             </ul>

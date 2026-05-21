@@ -43,6 +43,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1547514700-eed6f6e2a4f4?w=600&q=80",
     badge: "Bán chạy",
     rating: 4.9,
+    soldCount: 2156,
   },
   {
     id: "2",
@@ -54,6 +55,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1464454709131-ffd692591ee5?w=600&q=80",
     badge: "Mùa vụ",
     rating: 4.8,
+    soldCount: 892,
   },
   {
     id: "3",
@@ -64,6 +66,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&q=80",
     rating: 4.7,
+    soldCount: 3421,
   },
   {
     id: "4",
@@ -74,6 +77,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1592924357225-91a4daadcdee?w=600&q=80",
     rating: 4.6,
+    soldCount: 1567,
   },
   {
     id: "5",
@@ -85,6 +89,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1559189330-6fee360ae880?w=600&q=80",
     badge: "Giảm 15%",
     rating: 4.9,
+    soldCount: 2890,
   },
   {
     id: "6",
@@ -95,6 +100,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&q=80",
     rating: 4.8,
+    soldCount: 534,
   },
   {
     id: "7",
@@ -106,6 +112,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=80",
     badge: "Đặc sản",
     rating: 5,
+    soldCount: 678,
   },
   {
     id: "8",
@@ -116,6 +123,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1560806887-1ce45bdbc865?w=600&q=80",
     rating: 4.7,
+    soldCount: 1123,
   },
   {
     id: "9",
@@ -126,6 +134,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1537640538966-79f521a9baf0?w=600&q=80",
     rating: 4.6,
+    soldCount: 945,
   },
   {
     id: "10",
@@ -136,6 +145,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=80",
     rating: 4.5,
+    soldCount: 4102,
   },
   {
     id: "11",
@@ -146,6 +156,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1594282418429-26355d4f57f4?w=600&q=80",
     rating: 4.4,
+    soldCount: 1876,
   },
   {
     id: "12",
@@ -156,6 +167,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600&q=80",
     rating: 4.7,
+    soldCount: 2234,
   },
   {
     id: "13",
@@ -167,6 +179,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1563565375-3a6b0e169d16?w=600&q=80",
     badge: "Mới",
     rating: 4.5,
+    soldCount: 756,
   },
   {
     id: "14",
@@ -178,6 +191,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1586201375767-83865001e31c?w=600&q=80",
     badge: "Bán chạy",
     rating: 4.9,
+    soldCount: 1987,
   },
   {
     id: "15",
@@ -188,6 +202,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1609501676725-718820abf966?w=600&q=80",
     rating: 4.6,
+    soldCount: 432,
   },
   {
     id: "16",
@@ -198,6 +213,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1604908176997-431f63827d9f?w=600&q=80",
     rating: 4.4,
+    soldCount: 2654,
   },
   {
     id: "17",
@@ -208,6 +224,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&q=80",
     rating: 4.7,
+    soldCount: 821,
   },
   {
     id: "18",
@@ -219,6 +236,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=600&q=80",
     badge: "Cao cấp",
     rating: 4.9,
+    soldCount: 312,
   },
   {
     id: "19",
@@ -230,6 +248,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&q=80",
     badge: "Organic",
     rating: 4.8,
+    soldCount: 1543,
   },
   {
     id: "20",
@@ -241,6 +260,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1598170845058-32b9d6a947da?w=600&q=80",
     badge: "Organic",
     rating: 4.7,
+    soldCount: 967,
   },
   {
     id: "21",
@@ -251,6 +271,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     image:
       "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&q=80",
     rating: 4.9,
+    soldCount: 645,
   },
   {
     id: "22",
@@ -262,6 +283,7 @@ export const FEATURED_PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=600&q=80",
     badge: "Combo",
     rating: 4.8,
+    soldCount: 1289,
   },
 ];
 

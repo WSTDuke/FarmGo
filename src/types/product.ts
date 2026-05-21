@@ -14,4 +14,6 @@ export type Product = {
   image: string;
   badge?: string;
   rating: number;
+  /** Số lượng đã bán (mock / từ DB sau) */
+  soldCount: number;
 };
