@@ -3,37 +3,31 @@ import type { Product, ProductCategory } from "@/types/product";
 export const CATEGORIES: {
   id: ProductCategory;
   label: string;
-  emoji: string;
   description: string;
 }[] = [
   {
     id: "fruits",
     label: "Trái cây",
-    emoji: "🍊",
     description: "Cam, táo, nho, dưa hấu tươi mỗi ngày",
   },
   {
     id: "vegetables",
     label: "Rau củ",
-    emoji: "🥬",
     description: "Rau xanh, củ quả sạch từ nông trại",
   },
   {
     id: "food",
     label: "Thực phẩm",
-    emoji: "🌾",
     description: "Gạo, mật ong, đặc sản vùng miền",
   },
   {
     id: "flowers",
     label: "Hoa tươi",
-    emoji: "🌸",
     description: "Hoa cắt, bó hoa, quà tặng xinh xắn",
   },
   {
     id: "organic",
     label: "Hữu cơ",
-    emoji: "🌿",
     description: "Chứng nhận organic, an toàn tuyệt đối",
   },
 ];

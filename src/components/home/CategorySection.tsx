@@ -1,4 +1,6 @@
+import { IconBox } from "@/components/ui/IconBox";
 import { CATEGORIES } from "@/data/products.mock";
+import { CATEGORY_ICONS } from "@/lib/category-icons";
 
 export function CategorySection() {
   return (
@@ -19,9 +21,11 @@ export function CategorySection() {
                 type="button"
                 className="group flex w-full flex-col items-center rounded-2xl border border-emerald-100 bg-gradient-to-b from-emerald-50/80 to-white p-6 text-center transition-all hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-100"
               >
-                <span className="text-4xl transition-transform group-hover:scale-110">
-                  {cat.emoji}
-                </span>
+                <IconBox
+                  icon={CATEGORY_ICONS[cat.id]}
+                  size="lg"
+                  className="transition-transform group-hover:scale-110 group-hover:bg-emerald-200"
+                />
                 <span className="mt-3 font-semibold text-emerald-900">
                   {cat.label}
                 </span>

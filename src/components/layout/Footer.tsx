@@ -25,19 +25,14 @@ export function Footer() {
                 Giới thiệu
               </Link>
             </li>
-            <li>
-              <Link href="/blog" className="hover:text-white">
-                Tin tức
-              </Link>
-            </li>
           </ul>
         </div>
         <div>
           <p className="font-semibold text-white">Liên hệ</p>
           <p className="mt-3 text-sm text-emerald-200/80">
-            Hotline: 1900 xxxx
+            Hotline: 0984099061
             <br />
-            Email: hello@farmgo.vn
+            Email: duke.nd.wst@gmail.com
           </p>
         </div>
       </div>

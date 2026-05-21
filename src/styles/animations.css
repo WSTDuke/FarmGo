@@ -17,10 +17,136 @@
   }
 }
 
+@keyframes auth-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes auth-page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+}
+
+@keyframes step-enter-forward {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes step-enter-back {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes step-exit-forward {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+
+@keyframes step-exit-back {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+
+@keyframes subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.3s ease-out both;
 }
 
 .animate-float {
   animation: float 5s ease-in-out infinite;
+}
+
+.animate-auth-page-in {
+  animation: auth-page-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-step-enter-forward {
+  animation: step-enter-forward 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-step-enter-back {
+  animation: step-enter-back 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-step-exit-forward {
+  animation: step-exit-forward 0.2s ease-in both;
+}
+
+.animate-step-exit-back {
+  animation: step-exit-back 0.2s ease-in both;
+}
+
+.animate-subtitle-in {
+  animation: subtitle-in 0.3s ease-out both;
+}
+
+::view-transition-old(auth-form-panel) {
+  animation: auth-page-out 0.25s ease-in forwards;
+}
+
+::view-transition-new(auth-form-panel) {
+  animation: auth-page-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-auth-page-in,
+  .animate-step-enter-forward,
+  .animate-step-enter-back,
+  .animate-step-exit-forward,
+  .animate-step-exit-back,
+  .animate-subtitle-in,
+  .animate-fade-in {
+    animation: none;
+  }
+
+  ::view-transition-old(auth-form-panel),
+  ::view-transition-new(auth-form-panel) {
+    animation: none;
+  }
 }

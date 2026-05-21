@@ -3,7 +3,6 @@ export const APP_NAME = "FarmGo";
 export const NAV_LINKS = [
   { href: "/", label: "Trang chủ" },
   { href: "/about", label: "Giới thiệu" },
-  { href: "/blog", label: "Blog" },
 ] as const;
 
 export const API_BASE_URL =

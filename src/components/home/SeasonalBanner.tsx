@@ -1,12 +1,22 @@
+import { Apple, Citrus, Grape } from "lucide-react";
 import Image from "next/image";
+
+const DECOR_ICONS = [Citrus, Apple, Grape];
 
 export function SeasonalBanner() {
   return (
     <section className="py-14">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 to-green-500 px-6 py-12 md:px-12 md:py-16">
-          <div className="pointer-events-none absolute -right-8 -top-8 text-[120px] opacity-20 md:text-[180px]">
-            🍊🍋🍇
+          <div className="pointer-events-none absolute -right-4 -top-4 flex gap-3 opacity-20 md:-right-2 md:-top-2">
+            {DECOR_ICONS.map((Icon, i) => (
+              <Icon
+                key={i}
+                className="h-24 w-24 text-white md:h-36 md:w-36"
+                strokeWidth={1}
+                aria-hidden
+              />
+            ))}
           </div>
           <div className="relative z-10 grid gap-8 md:grid-cols-2 md:items-center">
             <div className="text-white">

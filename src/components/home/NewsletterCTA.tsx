@@ -1,14 +1,14 @@
 "use client";
 
+import { IconBox } from "@/components/ui/IconBox";
 import { Input } from "@/components/ui/Input";
+import { Leaf } from "lucide-react";
 
 export function NewsletterCTA() {
   return (
     <section className="bg-gradient-to-b from-white to-emerald-50 py-16">
       <div className="mx-auto max-w-xl px-4 text-center lg:px-8">
-        <span className="text-4xl" aria-hidden>
-          🌿
-        </span>
+        <IconBox icon={Leaf} size="lg" className="mx-auto" />
         <h2 className="mt-4 text-2xl font-bold text-emerald-950">
           Nhận ưu đãi mùa vụ mỗi tuần
         </h2>

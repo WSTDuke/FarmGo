@@ -1,26 +1,47 @@
 import { HERO_IMAGES } from "@/data/products.mock";
+import {
+  Apple,
+  Carrot,
+  Cherry,
+  Citrus,
+  Flower2,
+  Grape,
+  Leaf,
+  Salad,
+  type LucideIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const FLOATING_EMOJI = ["🍎", "🍊", "🍇", "🥬", "🍓", "🥕", "🌽", "🍋", "🥝", "🌸"];
+const FLOATING_ICONS: { Icon: LucideIcon; left: string; top: string; delay: number }[] = [
+  { Icon: Apple, left: "5%", top: "10%", delay: 0 },
+  { Icon: Citrus, left: "18%", top: "55%", delay: 0.4 },
+  { Icon: Grape, left: "32%", top: "25%", delay: 0.8 },
+  { Icon: Salad, left: "48%", top: "70%", delay: 1.2 },
+  { Icon: Cherry, left: "62%", top: "15%", delay: 1.6 },
+  { Icon: Carrot, left: "75%", top: "45%", delay: 2 },
+  { Icon: Leaf, left: "88%", top: "65%", delay: 2.4 },
+  { Icon: Flower2, left: "12%", top: "78%", delay: 2.8 },
+];
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-lime-50">
       <div className="pointer-events-none absolute inset-0">
-        {FLOATING_EMOJI.map((emoji, i) => (
-          <span
+        {FLOATING_ICONS.map(({ Icon, left, top, delay }, i) => (
+          <Icon
             key={i}
-            className="absolute text-2xl opacity-20 md:text-4xl animate-float"
+            className="absolute h-8 w-8 animate-float text-emerald-600/20 md:h-12 md:w-12"
             style={{
-              left: `${(i * 11) % 90}%`,
-              top: `${(i * 17) % 80}%`,
-              animationDelay: `${i * 0.4}s`,
+              left,
+              top,
+              animationDelay: `${delay}s`,
             }}
+            strokeWidth={1.75}
+            stroke="currentColor"
+            fill="none"
             aria-hidden
-          >
-            {emoji}
-          </span>
+          />
         ))}
       </div>
 

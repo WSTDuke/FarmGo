@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { StarRating } from "@/components/ui/StarRating";
 import { FEATURED_PRODUCTS } from "@/data/products.mock";
 import Image from "next/image";
 
@@ -46,12 +47,7 @@ export function ProductShowcase() {
                   )}
                 </div>
                 <div className="p-4">
-                  <div className="flex items-center gap-1 text-amber-500 text-sm">
-                    {"★".repeat(Math.round(product.rating))}
-                    <span className="text-emerald-600/60 text-xs">
-                      {product.rating}
-                    </span>
-                  </div>
+                  <StarRating rating={product.rating} />
                   <h3 className="mt-1 font-semibold text-emerald-950 line-clamp-2">
                     {product.name}
                   </h3>
