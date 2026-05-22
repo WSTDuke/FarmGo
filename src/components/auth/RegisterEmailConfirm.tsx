@@ -6,9 +6,12 @@ import Link from "next/link";
 
 type RegisterEmailConfirmProps = {
   email: string;
+  role?: "seller" | "buyer";
 };
 
-export function RegisterEmailConfirm({ email }: RegisterEmailConfirmProps) {
+export function RegisterEmailConfirm({ email, role = "buyer" }: RegisterEmailConfirmProps) {
+  const loginHref = role === "seller" ? "/seller/login" : "/login";
+
   return (
     <div className="animate-auth-page-in py-4 text-center">
       <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
@@ -32,7 +35,7 @@ export function RegisterEmailConfirm({ email }: RegisterEmailConfirmProps) {
         Không thấy email? Kiểm tra thư mục spam hoặc quảng cáo.
       </p>
 
-      <Link href="/login" className="mt-10 inline-block w-full sm:w-auto">
+      <Link href={loginHref} className="mt-10 inline-block w-full sm:w-auto">
         <Button
           type="button"
           className="w-full rounded-xl px-10 py-4 text-base font-semibold sm:min-w-[240px]"

@@ -14,6 +14,7 @@ type AuthPanelProps = {
   /** Ẩn khối tiêu đề lớn (dùng cho đăng ký — tiêu đề nằm trong stepper) */
   hideTitleBlock?: boolean;
   hideAlternateFooter?: boolean;
+  homeHref?: string;
 };
 
 export function AuthPanel({
@@ -27,12 +28,13 @@ export function AuthPanel({
   pinnedHeader,
   hideTitleBlock = false,
   hideAlternateFooter = false,
+  homeHref = "/",
 }: AuthPanelProps) {
   return (
     <div className="flex w-full max-w-xl flex-col justify-center px-6 py-14 sm:px-12 lg:px-20">
       <div className="shrink-0">
         <Link
-          href="/"
+          href={homeHref}
           className="mb-10 inline-block text-base font-medium text-emerald-700 transition-colors hover:text-emerald-900"
         >
           ← Về trang chủ

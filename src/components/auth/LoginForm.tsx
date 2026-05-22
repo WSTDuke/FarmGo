@@ -88,6 +88,7 @@ export function LoginForm({ roleRequirement = "buyer" }: LoginFormProps) {
       alternatePrompt={roleRequirement === "seller" ? "Bạn muốn bán hàng cùng FarmGo?" : copy.alternatePrompt}
       alternateHref={roleRequirement === "seller" ? "/seller/register" : copy.alternateHref}
       alternateLabel={roleRequirement === "seller" ? "Đăng ký ngay" : copy.alternateLabel}
+      homeHref={roleRequirement === "seller" ? "/seller" : "/"}
     >
       <form className="space-y-6" onSubmit={handleSubmit}>
         {resetSuccess && (

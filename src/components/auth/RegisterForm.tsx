@@ -178,8 +178,9 @@ export function RegisterForm({ role = "buyer" }: RegisterFormProps) {
         alternateLabel={role === "seller" ? "Đăng nhập ngay" : copy.alternateLabel}
         hideTitleBlock
         hideAlternateFooter
+        homeHref={role === "seller" ? "/seller" : "/"}
       >
-        <RegisterEmailConfirm email={pendingEmail} />
+        <RegisterEmailConfirm email={pendingEmail} role={role} />
       </AuthPanel>
     );
   }
@@ -191,6 +192,7 @@ export function RegisterForm({ role = "buyer" }: RegisterFormProps) {
       alternatePrompt={role === "seller" ? "Đã có tài khoản người bán?" : copy.alternatePrompt}
       alternateHref={role === "seller" ? "/seller/login" : copy.alternateHref}
       alternateLabel={role === "seller" ? "Đăng nhập ngay" : copy.alternateLabel}
+      homeHref={role === "seller" ? "/seller" : "/"}
       pinnedHeader={
         <AuthStepIndicator
           currentStep={step}
