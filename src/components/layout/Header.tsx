@@ -11,10 +11,13 @@ export async function Header() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const isSeller = user?.user_metadata?.role === "seller";
+  const homeHref = isSeller ? "/seller" : "/";
+
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-100/80 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex min-h-[5.5rem] max-w-6xl items-center justify-between gap-6 px-4 py-5 lg:min-h-[6rem] lg:px-8 lg:py-6">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href={homeHref} className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-md shadow-emerald-500/30 lg:h-14 lg:w-14">
             <Sprout
               className="h-6 w-6 lg:h-7 lg:w-7"
@@ -24,12 +27,17 @@ export async function Header() {
               aria-hidden
             />
           </span>
-          <span className="text-xl font-bold text-emerald-800 lg:text-2xl">
+          <span className="text-xl font-bold text-emerald-800 lg:text-2xl flex items-center gap-2">
             {APP_NAME}
+            {isSeller && (
+              <span className="text-xs font-semibold text-emerald-600 bg-emerald-100/80 rounded-lg px-2 py-1 ml-1 select-none">
+                Seller
+              </span>
+            )}
           </span>
         </Link>
-        <Navbar />
-        <HeaderActions user={user} />
+        <Navbar isSeller={isSeller} />
+        <HeaderActions user={user} isSeller={isSeller} />
       </div>
     </header>
   );

@@ -28,7 +28,11 @@ type ProfileFields = {
   email: string;
 };
 
-export function RegisterForm() {
+export type RegisterFormProps = {
+  role?: "seller" | "buyer";
+};
+
+export function RegisterForm({ role = "buyer" }: RegisterFormProps) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState<ProfileFields | null>(null);
@@ -133,8 +137,9 @@ export function RegisterForm() {
         data: {
           full_name: fullName,
           phone,
+          role,
         },
-        emailRedirectTo: `${window.location.origin}/login`,
+        emailRedirectTo: `${window.location.origin}${role === "seller" ? "/seller/login" : "/login"}`,
       },
     });
 
@@ -146,7 +151,7 @@ export function RegisterForm() {
     }
 
     if (data.session) {
-      router.push("/");
+      router.push(role === "seller" ? "/seller" : "/");
       router.refresh();
       return;
     }
@@ -166,11 +171,11 @@ export function RegisterForm() {
   if (pendingEmail) {
     return (
       <AuthPanel
-        title={copy.panelTitle}
+        title={role === "seller" ? "Đăng ký Kênh Người Bán" : copy.panelTitle}
         subtitle="Xác nhận email để hoàn tất đăng ký."
-        alternatePrompt={copy.alternatePrompt}
-        alternateHref={copy.alternateHref}
-        alternateLabel={copy.alternateLabel}
+        alternatePrompt={role === "seller" ? "Đã có tài khoản người bán?" : copy.alternatePrompt}
+        alternateHref={role === "seller" ? "/seller/login" : copy.alternateHref}
+        alternateLabel={role === "seller" ? "Đăng nhập ngay" : copy.alternateLabel}
         hideTitleBlock
         hideAlternateFooter
       >
@@ -181,11 +186,11 @@ export function RegisterForm() {
 
   return (
     <AuthPanel
-      title={copy.panelTitle}
-      subtitle={copy.panelSubtitle}
-      alternatePrompt={copy.alternatePrompt}
-      alternateHref={copy.alternateHref}
-      alternateLabel={copy.alternateLabel}
+      title={role === "seller" ? "Đăng ký Kênh Người Bán" : copy.panelTitle}
+      subtitle={role === "seller" ? "Trở thành đối tác bán hàng cùng FarmGo" : copy.panelSubtitle}
+      alternatePrompt={role === "seller" ? "Đã có tài khoản người bán?" : copy.alternatePrompt}
+      alternateHref={role === "seller" ? "/seller/login" : copy.alternateHref}
+      alternateLabel={role === "seller" ? "Đăng nhập ngay" : copy.alternateLabel}
       pinnedHeader={
         <AuthStepIndicator
           currentStep={step}

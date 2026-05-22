@@ -15,7 +15,11 @@ import { useState } from "react";
 
 const copy = AUTH_COPY.login;
 
-export function LoginForm() {
+export type LoginFormProps = {
+  roleRequirement?: "seller" | "buyer";
+};
+
+export function LoginForm({ roleRequirement = "buyer" }: LoginFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -37,27 +41,53 @@ export function LoginForm() {
       password,
     });
 
-    setLoading(false);
-
     if (authError) {
+      setLoading(false);
       setError(mapAuthError(authError.message));
       return;
     }
 
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      await supabase.auth.signOut();
+      setLoading(false);
+      setError("Không thể tải thông tin người dùng.");
+      return;
+    }
+
+    const role = user.user_metadata?.role || "buyer";
+
+    if (roleRequirement === "seller" && role !== "seller") {
+      await supabase.auth.signOut();
+      setLoading(false);
+      setError("Tài khoản này không phải là tài khoản người bán.");
+      return;
+    }
+
+    if (roleRequirement === "buyer" && role === "seller") {
+      await supabase.auth.signOut();
+      setLoading(false);
+      setError("Tài khoản người bán vui lòng đăng nhập tại kênh người bán.");
+      return;
+    }
+
+    setLoading(false);
+
     const next = searchParams.get("next");
+    const defaultDest = role === "seller" ? "/seller" : ROUTES.home;
     const destination =
-      next?.startsWith("/") && !next.startsWith("//") ? next : ROUTES.home;
+      next?.startsWith("/") && !next.startsWith("//") ? next : defaultDest;
     router.push(destination);
     router.refresh();
   }
 
   return (
     <AuthPanel
-      title={copy.panelTitle}
-      subtitle={copy.panelSubtitle}
-      alternatePrompt={copy.alternatePrompt}
-      alternateHref={copy.alternateHref}
-      alternateLabel={copy.alternateLabel}
+      title={roleRequirement === "seller" ? "Đăng nhập Kênh Người Bán" : copy.panelTitle}
+      subtitle={roleRequirement === "seller" ? "Đăng nhập để quản lý gian hàng của bạn" : copy.panelSubtitle}
+      alternatePrompt={roleRequirement === "seller" ? "Bạn muốn bán hàng cùng FarmGo?" : copy.alternatePrompt}
+      alternateHref={roleRequirement === "seller" ? "/seller/register" : copy.alternateHref}
+      alternateLabel={roleRequirement === "seller" ? "Đăng ký ngay" : copy.alternateLabel}
     >
       <form className="space-y-6" onSubmit={handleSubmit}>
         {resetSuccess && (
@@ -112,7 +142,7 @@ export function LoginForm() {
           disabled={loading}
           className="w-full rounded-xl py-4 text-base font-semibold shadow-md shadow-emerald-600/20"
         >
-          {loading ? "Đang đăng nhập..." : copy.submitLabel}
+          {loading ? "Đang đăng nhập..." : (roleRequirement === "seller" ? "Đăng nhập Bán hàng" : copy.submitLabel)}
         </Button>
       </form>
     </AuthPanel>

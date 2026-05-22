@@ -4,12 +4,24 @@ import { NAV_LINKS } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function Navbar() {
+type NavbarProps = {
+  isSeller?: boolean;
+};
+
+const SELLER_NAV_LINKS = [
+  { href: "/seller", label: "Kênh Người Bán" },
+  { href: "/products", label: "Sản phẩm" },
+  { href: "/about", label: "Giới thiệu" },
+] as const;
+
+export function Navbar({ isSeller = false }: NavbarProps) {
   const pathname = usePathname();
+  const isSellerZone = isSeller || pathname.startsWith("/seller");
+  const links = isSellerZone ? SELLER_NAV_LINKS : NAV_LINKS;
 
   return (
     <nav className="flex items-center gap-2 sm:gap-8">
-      {NAV_LINKS.map((link) => {
+      {links.map((link) => {
         const active = pathname === link.href;
         return (
           <Link

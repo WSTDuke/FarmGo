@@ -19,7 +19,7 @@ export default async function ProductsPage() {
   return (
     <main className="bg-gradient-to-b from-emerald-50/60 to-white">
       <Suspense fallback={null}>
-        <ProductsCatalog isAuthenticated={!!user} />
+        <ProductsCatalog user={user} />
       </Suspense>
     </main>
   );
